@@ -2,6 +2,9 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <functional>
+#include <iomanip>
+#include <fstream>
 
 using namespace std;
 
@@ -12,30 +15,66 @@ vector<RFC *> rfcs;
 class RFC
 {
 public:
-   RFC(int number, string attributes) :
-      live(true), _number(number), _attributes(attributes)
+   RFC(int _number, string _attributes) :
+      live(true), number(_number), attributes(_attributes)
    {}
 
-   void add_child(int number, string attributes)
+   void add_child(int _number, string _attributes)
    {
-      children.push_back(pair<RFC *, string>(rfcs[number], attributes));
+      children.push_back(pair<RFC *, string>(rfcs[_number], _attributes));
    }
 
-   void add_parent(int number)
+   void add_parent(int _number)
    {
-      parents.push_back(rfcs[number]);
+      parents.push_back(rfcs[_number]);
    }
 
    bool live;
-   int _number;
-   string _attributes;
+   int number;
+   string attributes;
    vector< pair<RFC *, string> > children;
    vector<RFC *> parents;
+
+   friend ostream& operator<<(ostream &ost, const RFC &rfc);
 };
 
 ostream& operator<<(ostream &ost, const RFC &rfc)
 {
+   ost << setfill('0') << setw(4) << rfc.number << rfc.attributes;
    return ost;
+}
+
+ofstream *file;
+
+void visit(int number);
+
+void visit_child(int parent, pair<RFC *, string> edge)
+{
+   *file << setfill('0') << setw(4)
+         << parent << " -> "
+         << setfill('0') << setw(4)
+         << edge.first->number << edge.second << "\n";
+   visit(edge.first->number);
+}
+
+void visit_parent(RFC *parent)
+{
+   visit(parent->number);
+}
+
+void visit(int number)
+{
+   RFC *rfc = rfcs[number];
+
+   if(!rfc->live)
+      return;
+
+   rfc->live = false;
+
+   *file << *rfc << "\n";
+
+   for_each(rfc->children.begin(), rfc->children.end(), bind1st(ptr_fun(visit_child),  number));
+   for_each(rfc->parents.begin(),  rfc->parents.end(),  &visit_parent);
 }
 
 int main(int argc, char *argv[])
@@ -46,14 +85,13 @@ int main(int argc, char *argv[])
       exit(2);
    }
 
-   // Read max RFC number from command line argument
    int max_rfc_num;
    istringstream iss(argv[1]);
    iss >> max_rfc_num;
 
    rfcs.resize(max_rfc_num + 1, NULL);
 
-   while(!cin.eof())
+   while(cin)
    {
       string type;
       cin >> type;
@@ -104,7 +142,7 @@ int main(int argc, char *argv[])
       }
       else
       {
-         if(cin.eof())
+         if(!cin)
             break;
          cout << "Unknown record type \"" << type << "\"" << endl;
          exit(1);
@@ -113,9 +151,22 @@ int main(int argc, char *argv[])
 
    for(int i = 0; i <= max_rfc_num; ++i)
    {
-      if(!rfcs[i]->live)
+      if(!rfcs[i] || !rfcs[i]->live)
          continue;
 
-      
+      ostringstream oss;
+      oss << setfill('0') << setw(4) << i;
+      file = new ofstream((oss.str() + ".dot").c_str());
+
+      *file << "digraph rfc" << i << "\n";
+      *file << "{" << "\n";
+      *file << "rankdir=LR;" << "\n";
+      *file << "node [shape=box,style=filled];\n";
+
+      visit(i);
+
+      *file << "}" << "\n" << endl;
+      file->close();
+      delete file;
    }
 }
