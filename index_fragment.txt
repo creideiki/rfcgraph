@@ -1,0 +1,106 @@
+0114 File Transfer Protocol. A.K. Bhushan. Apr-10-1971. (Format:
+     TXT=38981 bytes) (Updated by RFC0133, RFC0141, RFC0171, RFC0172)
+     (Status: UNKNOWN)
+
+0133 File Transfer and Error Recovery. R.L. Sunberg. Apr-27-1971.
+     (Format: TXT=8322 bytes) (Updates RFC0114) (Status: UNKNOWN)
+
+0141 Comments on RFC 114: A File Transfer Protocol. E. Harslem, J.F.
+     Heafner. Apr-29-1971. (Format: TXT=3781 bytes) (Updates RFC0114)
+     (Status: UNKNOWN)
+
+0171 The Data Transfer Protocol. A. Bhushan, B. Braden, W. Crowther,
+     E. Harslem, J. Heafner, A. McKenize, J. Melvin, B. Sundberg, D.
+     Watson, J. White. Jun-01-1971. (Format: TXT=20616 bytes) (Obsoleted
+     by RFC0264) (Updates RFC0114) (Updated by RFC0238) (Status: UNKNOWN)
+
+0172 The File Transfer Protocol. A. Bhushan, B. Braden, W. Crowther,
+     E. Harslem, J. Heafner, A. McKenzie, J. Melvin, B. Sundberg, D.
+     Watson, J. White. Jun-23-1971. (Format: TXT=21328 bytes) (Obsoleted
+     by RFC0265) (Updates RFC0114) (Updated by RFC0238) (Status: UNKNOWN)
+
+0238 Comments on DTP and FTP proposals. R.T. Braden. Sep-29-1971.
+     (Format: TXT=2735 bytes) (Updates RFC0171, RFC0172) (Status: UNKNOWN)
+
+0264 The Data Transfer Protocol. A. Bhushan, B. Braden, W. Crowther,
+     E. Harslem, J. Heafner, A. McKenize, B. Sundberg, D. Watson, J.
+     White. Jan-04-1972. (Format: TXT=20907 bytes) (Obsoletes RFC0171)
+     (Obsoleted by RFC0354) (Updated by RFC0310) (Also RFC0265) (Status:
+     UNKNOWN)
+
+0265 The File Transfer Protocol. A. Bhushan, B. Braden, W. Crowther,
+     E. Harslem, J. Heafner, A. McKenzie, J. Melvin, B. Sundberg, D.
+     Watson, J. White. Nov-17-1971. (Format: TXT=3914 bytes) (Obsoletes
+     RFC0172) (Obsoleted by RFC0354) (Updated by RFC0281, RFC0294,
+     RFC0310) (Also RFC0264) (Status: UNKNOWN)
+
+0281 Suggested addition to File Transfer Protocol. A.M. McKenzie.
+     Dec-08-1971. (Format: TXT=12006 bytes) (Updates RFC0265) (Status:
+     UNKNOWN)
+
+0294 The Use of "Set Data Type" Transaction in File Transfer Protocol.
+     A.K. Bhushan. Jan-25-1972. (Format: TXT=3924 bytes) (Updates RFC0265)
+     (Status: UNKNOWN)
+
+0310 Another Look at Data and File Transfer Protocols. A.K. Bhushan.
+     Apr-03-1972. (Format: TXT=18593 bytes) (Updates RFC0264, RFC0265)
+     (Status: UNKNOWN)
+
+0354 File Transfer Protocol. A.K. Bhushan. Jul-08-1972. (Format:
+     TXT=58074 bytes) (Obsoletes RFC0264, RFC0265) (Obsoleted by RFC0542)
+     (Updated by RFC0385, RFC0454, RFC0683) (Status: UNKNOWN)
+
+0385 Comments on the File Transfer Protocol. A.K. Bhushan.
+     Aug-18-1972. (Format: TXT=13030 bytes) (Updates RFC0354) (Updated by
+     RFC0414) (Status: UNKNOWN)
+
+0414 File Transfer Protocol (FTP) status and further comments. A.K.
+     Bhushan. Dec-29-1972. (Format: TXT=12845 bytes) (Updates RFC0385)
+     (Status: UNKNOWN)
+
+0454 File Transfer Protocol - meeting announcement and a new proposed
+     document. A.M. McKenzie. Feb-16-1973. (Format: TXT=78966 bytes)
+     (Updates RFC0354) (Status: UNKNOWN)
+
+0542 File Transfer Protocol. N. Neigus. Aug-12-1973. (Format:
+     TXT=100666 bytes) (Obsoletes RFC0354) (Obsoleted by RFC0765) (Updated
+     by RFC0614, RFC0640) (Also RFC0454, RFC0495) (Status: UNKNOWN)
+
+0607 Comments on the File Transfer Protocol. M. Krilanovich, G. Gregg.
+     Jan-07-1974. (Format: TXT=8652 bytes) (Obsoleted by RFC0624) (Updated
+     by RFC0614) (Status: UNKNOWN)
+
+0624 Comments on the File Transfer Protocol. M. Krilanovich, G. Gregg,
+     W. Hathaway, J.E. White. Feb-28-1974. (Format: TXT=10105 bytes)
+     (Obsoletes RFC0607) (Status: UNKNOWN)
+
+0614 Response to RFC 607: "Comments on the File Transfer Protocol".
+     K.T. Pogran, N. Neigus. Jan-28-1974. (Format: TXT=11409 bytes)
+     (Updates RFC0542, RFC0607) (Status: UNKNOWN)
+
+0640 Revised FTP reply codes. J. Postel. Jun-19-1974. (Format:
+     TXT=39670 bytes) (Updates RFC0542) (Status: UNKNOWN)
+
+0683 FTPSRV - Tenex extension for paged files. R. Clements.
+     Apr-03-1975. (Format: TXT=8806 bytes) (Updates RFC0354) (Status:
+     UNKNOWN)
+
+0765 File Transfer Protocol specification. J. Postel. Jun-01-1980.
+     (Format: TXT=146641 bytes) (Obsoletes RFC0542) (Obsoleted by RFC0959)
+     (Status: UNKNOWN)
+
+0959 File Transfer Protocol. J. Postel, J.K. Reynolds. Oct-01-1985.
+     (Format: TXT=147316 bytes) (Obsoletes RFC0765) (Updated by RFC2228,
+     RFC2640, RFC2773) (Also STD0009) (Status: STANDARD)
+
+2228 FTP Security Extensions. M. Horowitz, S. Lunt. October 1997.
+     (Format: TXT=58733 bytes) (Updates RFC0959) (Status: PROPOSED
+     STANDARD)
+
+2640 Internationalization of the File Transfer Protocol. B. Curtin.
+     July 1999. (Format: TXT=57204 bytes) (Updates RFC0959) (Status:
+     PROPOSED STANDARD)
+
+2773 Encryption using KEA and SKIPJACK. R. Housley, P. Yee, W. Nace.
+     February 2000. (Format: TXT=20008 bytes) (Updates RFC0959) (Status:
+     EXPERIMENTAL)
