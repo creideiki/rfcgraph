@@ -1,2 +1,2 @@
-split-graph: split-graph.cpp
-	g++ -O2 -o split-graph split-graph.cpp
+split-graph: split-graph.cpp Makefile
+	g++ -g -o split-graph split-graph.cpp
