@@ -45,6 +45,7 @@ ostream& operator<<(ostream &ost, const RFC &rfc)
 }
 
 ofstream *file;
+ofstream *index_html;
 
 void visit(int number);
 
@@ -70,6 +71,13 @@ void visit(int number)
       return;
 
    rfc->live = false;
+
+   *index_html << "<tr><td>"
+               << "<a href=\"http://www.ietf.org/rfc/rfc"
+               << setfill('0') << setw(4) << rfc->number
+               << ".txt\">"
+               << setfill('0') << setw(4) << rfc->number
+               << "</a></td><td>" << rfc->attributes << "</td></tr>\n";
 
    *file << *rfc << "\n";
 
@@ -149,6 +157,9 @@ int main(int argc, char *argv[])
       }
    }
 
+   index_html = new ofstream("index.html");
+   *index_html << "<html><head><title>RFC index</title></head><body>\n";
+
    for(int i = 0; i <= max_rfc_num; ++i)
    {
       if(!rfcs[i] || !rfcs[i]->live)
@@ -158,6 +169,9 @@ int main(int argc, char *argv[])
       oss << setfill('0') << setw(4) << i;
       file = new ofstream((oss.str() + ".dot").c_str());
 
+      *index_html << "<a href=\"" << (oss.str() + ".png") << "\">Image</a>\n"
+                  << "<table>\n";
+
       *file << "digraph rfc" << i << "\n";
       *file << "{" << "\n";
       *file << "rankdir=LR;" << "\n";
@@ -166,7 +180,14 @@ int main(int argc, char *argv[])
       visit(i);
 
       *file << "}" << "\n" << endl;
+
+      *index_html << "</table>\n";
+
       file->close();
       delete file;
    }
+
+   *index_html << "</body></html>" << endl;
+   index_html->close();
+   delete index_html;
 }
