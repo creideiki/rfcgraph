@@ -1,4 +1,4 @@
-#!/bin/gawk -f
+#!/usr/local/bin/gawk -f
 #
 # Turns the RFC index into a Graphviz .dot graph.
 #
@@ -9,11 +9,6 @@
 # $Id$
 
 BEGIN {
-   print("digraph rfc");
-   print("{");
-   print("rankdir=LR;");
-   print("node [shape=box,style=filled];");
-
    node_color["experimental"] = "crimson";
    node_color["proposed standard"] = "orange";
    node_color["draft standard"] = "yellow";
@@ -29,7 +24,6 @@ BEGIN {
 
 # Beginning of RFC
 /^[[:digit:]]/ {
-#   print($1);
    description = $0;
    next;
 }
@@ -49,8 +43,6 @@ BEGIN {
 END {
    end_of_rfc(description);
    description = "";
-
-   print("}");
 }
 
 function get_parenthesized_rfc_numbers(description, relation, array,   left, right, rfcs)
@@ -100,17 +92,17 @@ function end_of_rfc(description,   number, color, label)
       color = node_color["obsolete"];
    }
 
-   printf("%s [color=%s,label=\"%s\"]\n", number, color, label);
+   printf("node %s [color=%s,label=\"%s\"]\n", number, color, label);
 
    get_parenthesized_rfc_numbers(description, "Updates", array);
    for(updated in array)
    {
-      print(array[updated] " -> " number edge_attrs["update"]);
+      print("edge " array[updated] " -> " number edge_attrs["update"]);
    }
 
    get_parenthesized_rfc_numbers(description, "Obsoletes", array);
    for(obsoleted in array)
    {
-      print(array[obsoleted] " -> " number edge_attrs["obsolete"]);
+      print("edge " array[obsoleted] " -> " number edge_attrs["obsolete"]);
    }
 }
