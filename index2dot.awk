@@ -20,22 +20,25 @@ BEGIN {
 
    edge_attrs["update"] = " [label=\"Update\",color=blue]";
    edge_attrs["obsolete"] = " [label=\"Obsolete\",color=red]";
+
+   in_rfc_list = 0;
 }
 
 # Beginning of RFC
-/^[[:digit:]]/ {
+/^[[:digit:]][[:digit:]][[:digit:]][[:digit:]]/ {
+   in_rfc_list = 1;
    description = $0;
    next;
 }
 
 # Description lines: concatenate the line to the description,
 # collapsing runs of white space.
-{
+in_rfc_list {
    description = description gensub(/  +/, " ", "g", $0);
 }
 
 # Empty line, end of RFC
-/^$/ {
+/^$/ && in_rfc_list {
    end_of_rfc(description);
    description = "";
 }
@@ -45,7 +48,7 @@ END {
    description = "";
 }
 
-function get_parenthesized_rfc_numbers(description, relation, array,   left, right, rfcs)
+function get_parenthesized_rfc_numbers(description, relation, array,   left, right, rfcs, i)
 {
    if(left = match(description, "\\(" relation ))
    {
@@ -55,7 +58,12 @@ function get_parenthesized_rfc_numbers(description, relation, array,   left, rig
                     right - length(relation) - 2);
       gsub(/ |(RFC)/, "", rfcs);
    }
-   return split(rfcs, array, ",");
+   split(rfcs, array, ",");
+   for(i in array)
+   {
+      if(!match(array[i], /^[[:digit:]][[:digit:]][[:digit:]][[:digit:]]$/))
+         array[i] = 0;
+   }
 }
 
 function get_status(description,   left, right)
@@ -97,12 +105,14 @@ function end_of_rfc(description,   number, color, label)
    get_parenthesized_rfc_numbers(description, "Updates", array);
    for(updated in array)
    {
-      print("edge " array[updated] " -> " number edge_attrs["update"]);
+      if(array[updated] != 0)
+         print("edge " array[updated] " -> " number edge_attrs["update"]);
    }
 
    get_parenthesized_rfc_numbers(description, "Obsoletes", array);
    for(obsoleted in array)
    {
-      print("edge " array[obsoleted] " -> " number edge_attrs["obsolete"]);
+      if(array[obsoleted] != 0)
+         print("edge " array[obsoleted] " -> " number edge_attrs["obsolete"]);
    }
 }
