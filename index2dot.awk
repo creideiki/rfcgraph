@@ -93,7 +93,7 @@ function end_of_rfc(description,   number, color, label)
    }
 
    label = number "\\n" substr(description, 6, match(description, /\./) - 6);
-   gsub(/\"/, "", label);
+   gsub(/\"/, "\\\"", label);
 
    if(get_parenthesized_rfc_numbers(description, "Obsoleted by", array))
    {
