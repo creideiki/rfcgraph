@@ -1,4 +1,4 @@
-#!/usr/local/bin/gawk -f
+#!/bin/gawk -f
 #
 # Turns the RFC index into a Graphviz .dot graph.
 #
@@ -14,7 +14,7 @@ BEGIN {
    node_color["draft standard"] = "yellow";
    node_color["internet standard"] = "green";
    node_color["standard"] = "green";
-   node_color["informational"] = "blue";
+   node_color["informational"] = "deepskyblue";
    node_color["obsolete"] = "red";
    node_color["unknown"] = "gray";
 
@@ -94,11 +94,6 @@ function end_of_rfc(description,   number, color, label)
 
    label = number "\\n" substr(description, 6, match(description, /\./) - 6);
    gsub(/\"/, "\\\"", label);
-
-   if(get_parenthesized_rfc_numbers(description, "Obsoleted by", array))
-   {
-      color = node_color["obsolete"];
-   }
 
    printf("node %s [color=%s,label=\"%s\"]\n", number, color, label);
 
