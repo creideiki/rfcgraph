@@ -31,12 +31,18 @@ class RFC;
 
 vector<RFC *> rfcs;
 
+string left_delimiter = "\\n";
+string right_delimiter = "\"]";
+
 class RFC
 {
 public:
    RFC(int _number, string _attributes) :
       live(true), number(_number), attributes(_attributes)
-   {}
+   {
+      if(title() == "Not Issued")
+         live = false;
+   }
 
    void add_child(int _number, string _attributes)
    {
@@ -46,6 +52,42 @@ public:
    void add_parent(int _number)
    {
       parents.push_back(rfcs[_number]);
+   }
+
+   string title() const
+   {
+      int full_title_start = attributes.find(left_delimiter) + left_delimiter.length();
+      int full_title_end   = attributes.rfind(right_delimiter);
+      string full_title = attributes.substr(full_title_start, full_title_end - full_title_start);
+
+      int backslash_position = 0;
+      while((backslash_position = full_title.find('\\', backslash_position)) != string::npos)
+         full_title.erase(backslash_position, 1);
+
+      return full_title;
+   }
+
+   string filled_attributes() const
+   {
+      string filled = attributes;
+      int title_start = filled.find(left_delimiter) + left_delimiter.length();
+      int position = title_start;
+      int start_of_line = position;
+
+      while((position = filled.find(" ", position + 1)) != string::npos)
+      {
+         int next_word_break = filled.find(" ", position + 1);
+         if(next_word_break == string::npos)
+            break;
+
+         if(next_word_break - start_of_line > 20)
+         {
+            filled.replace(position, 1, "\\n");
+            start_of_line = position;
+         }
+      }
+
+      return filled;
    }
 
    bool live;
@@ -59,7 +101,7 @@ public:
 
 ostream& operator<<(ostream &ost, const RFC &rfc)
 {
-   ost << setfill('0') << setw(4) << rfc.number << rfc.attributes;
+   ost << setfill('0') << setw(4) << rfc.number << rfc.filled_attributes();
    return ost;
 }
 
@@ -96,7 +138,7 @@ void visit(int number)
                << setfill('0') << setw(4) << rfc->number
                << ".txt\">"
                << setfill('0') << setw(4) << rfc->number
-               << "</a></td><td>" << rfc->attributes << "</td></tr>\n";
+               << "</a></td><td>" << rfc->title() << "</td></tr>\n";
 
    *file << *rfc << "\n";
 
@@ -108,7 +150,7 @@ int main(int argc, char *argv[])
 {
    if(argc != 2)
    {
-      cout << "Usage: " << argv[0] << " [max_rfc_num]" << endl;
+      cout << "Usage: " << argv[0] << " <max_rfc_num>" << endl;
       exit(2);
    }
 
@@ -177,7 +219,20 @@ int main(int argc, char *argv[])
    }
 
    index_html = new ofstream("index.html");
-   *index_html << "<html><head><title>RFC index</title></head><body>\n";
+   *index_html << "<html><head><title>RFC index</title>\n"
+               << "<style type=\"text/css\">\n"
+               << "   table\n"
+               << "   {\n"
+               << "      border: 1px solid black;\n"
+               << "      margin-top: 1em;\n"
+               << "   }\n"
+               << "\n"
+               << "   th\n"
+               << "   {\n"
+               << "      text-align: left;\n"
+               << "   }\n"
+               << "</style>\n"
+               << "</head><body>\n";
 
    for(int i = 0; i <= max_rfc_num; ++i)
    {
@@ -188,8 +243,8 @@ int main(int argc, char *argv[])
       oss << setfill('0') << setw(4) << i;
       file = new ofstream((oss.str() + ".dot").c_str());
 
-      *index_html << "<a href=\"" << (oss.str() + ".png") << "\">Image</a>\n"
-                  << "<table>\n";
+      *index_html << "<table>\n"
+                  << "<tr><th colspan=\"2\"><a href=\"" << (oss.str() + ".png") << "\">Relationship graph</a></th></tr>\n";
 
       *file << "digraph rfc" << i << "\n";
       *file << "{" << "\n";
