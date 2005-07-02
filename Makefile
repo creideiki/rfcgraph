@@ -1,3 +1,5 @@
+all: pngs rmdots
+
 split-graph: split-graph.cpp Makefile
 	g++ -O2 -o split-graph split-graph.cpp
 
@@ -5,7 +7,7 @@ split-graph: split-graph.cpp Makefile
 	wget http://www.ietf.org/iesg/1rfc_index.txt
 	-rm -f dots
 
-.PHONY: pngs clean
+.PHONY: all pngs clean rmdots
 
 dots: 1rfc_index.txt
 	./index2dot.awk < 1rfc_index.txt | sort -r | ./split-graph `tail 1rfc_index.txt | grep -E '^[[:digit:]]+' | tail -n 1 | cut -d' ' -f 1`
@@ -15,4 +17,7 @@ pngs: dots
 	for i in *.dot; do dot -Tpng "$$i" > `basename "$$i" .dot`.png; done
 
 clean:
-	-rm -f 1rfc_index.txt *.dot *.png index.html
+	-rm -f 1rfc_index.txt *.dot *.png index.html dots
+
+rmdots:
+	-rm -f *.dot
