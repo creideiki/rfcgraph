@@ -14,7 +14,7 @@ dots: 1rfc_index.txt
 	touch dots
 
 pngs: dots
-	for i in *.dot; do dot -Tpng "$$i" > `basename "$$i" .dot`.png; done
+	for i in *.dot; do dot -Tpng "$$i" -o `basename "$$i" .dot`.png; done
 
 clean:
 	-rm -f 1rfc_index.txt *.dot *.png index.html dots
