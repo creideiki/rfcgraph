@@ -50,9 +50,9 @@ END {
 
 function get_parenthesized_rfc_numbers(description, relation, array,   left, right, rfcs, i)
 {
-   if(left = match(description, "\\(" relation ))
+   if(left = index(description, "(" relation ))
    {
-      right = match(substr(description, left), /\)/);
+      right = index(substr(description, left), ")");
       rfcs = substr(description,
                     left + length(relation) + 1,
                     right - length(relation) - 2);
@@ -68,9 +68,9 @@ function get_parenthesized_rfc_numbers(description, relation, array,   left, rig
 
 function get_status(description,   left, right)
 {
-   if(left = match(description, /\(Status: /))
+   if(left = index(description, "(Status: "))
    {
-      right = match(substr(description, left), /\)/);
+      right = index(substr(description, left), ")");
       status = substr(description,
                       left + 9,
                       right - 10);
@@ -92,7 +92,17 @@ function end_of_rfc(description,   number, color, label)
       color = node_color["unknown"];
    }
 
-   label = number "\\n" substr(description, 6, match(description, /\./) - 6);
+   last_dot = length(description) + 1
+   next_dot = 0;
+   dot_found_at = index(description, ".");
+   while(dot_found_at)
+   {
+      last_dot = next_dot;
+      dot_found_at = index(substr(description, last_dot + 1), ".")
+      next_dot = dot_found_at + last_dot + 1;
+   }
+
+   label = number "\\n" substr(description, 6, last_dot - 6);
    gsub(/\"/, "\\\"", label);
 
    printf("node %s [color=%s,label=\"%s\"]\n", number, color, label);
