@@ -40,7 +40,7 @@ public:
    RFC(int _number, string _attributes) :
       live(true), number(_number), attributes(_attributes)
    {
-      if(title() == "Not Issued")
+      if(title().find("Not Issued") != string::npos)
          live = false;
    }
 
