@@ -1,0 +1,20 @@
+digraph legend
+{
+   rankdir=LR;
+   node [shape=box, style=filled];
+   experimental      [color=crimson,     label="Experimental"]
+   proposed_standard [color=orange,      label="Proposed standard"]
+   draft_standard    [color=yellow,      label="Draft standard"]
+   internet_standard [color=green,       label="Internet standard"]
+   standard          [color=green,       label="Standard"]
+   informational     [color=deepskyblue, label="Informational"]
+   obsolete          [color=red,         label="Obsolete"]
+   unknown           [color=gray,        label="Unknown"]
+   old1              [color=red,         label="Old"]
+   new1              [color=gray,        label="New"]
+   old2              [color=green,       label="Old"]
+   new2              [color=deepskyblue, label="New"]
+
+   old1 -> new1 [label="Obsolete", color=red]
+   old2 -> new2 [label="Update",   color=blue]
+}

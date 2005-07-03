@@ -1,4 +1,4 @@
-all: pngs rmdots
+all: pngs rmdots legend.png
 
 split-graph: split-graph.cpp Makefile
 	g++ -O2 -o split-graph split-graph.cpp
@@ -15,6 +15,9 @@ dots: 1rfc_index.txt split-graph
 
 pngs: dots
 	for i in *.dot; do dot -Tpng "$$i" -o `basename "$$i" .dot`.png; done
+
+legend.png:
+	dot -Tpng legend -o legend.png
 
 clean:
 	-rm -f 1rfc_index.txt *.dot *.png index.html dots split-graph

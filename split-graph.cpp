@@ -78,9 +78,9 @@ public:
       {
          int next_word_break = filled.find(" ", position + 1);
          if(next_word_break == string::npos)
-            break;
+            next_word_break = filled.length();
 
-         if(next_word_break - start_of_line > 20)
+         if(next_word_break - start_of_line > 25)
          {
             filled.replace(position, 1, "\\n");
             start_of_line = position;
@@ -232,7 +232,8 @@ int main(int argc, char *argv[])
                << "      text-align: left;\n"
                << "   }\n"
                << "</style>\n"
-               << "</head><body>\n";
+               << "</head><body>\n"
+               << "<p><a href=\"legend.png\">Legend</a>\n";
 
    for(int i = 0; i <= max_rfc_num; ++i)
    {
