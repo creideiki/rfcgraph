@@ -9,7 +9,7 @@ split-graph: split-graph.cpp Makefile
 
 .PHONY: all pngs clean rmdots
 
-dots: 1rfc_index.txt
+dots: 1rfc_index.txt split-graph
 	./index2dot.awk < 1rfc_index.txt | sort -r | ./split-graph `tail 1rfc_index.txt | grep -E '^[[:digit:]]+' | tail -n 1 | cut -d' ' -f 1`
 	touch dots
 
