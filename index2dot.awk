@@ -1,4 +1,4 @@
-#!/bin/gawk -f
+#!/usr/bin/gawk -f
 #
 # Turns the RFC index into a Graphviz .dot graph.
 #
