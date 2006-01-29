@@ -233,7 +233,8 @@ int main(int argc, char *argv[])
                << "   }\n"
                << "</style>\n"
                << "</head><body>\n"
-               << "<p><a href=\"legend.png\">Legend</a>\n";
+               << "<p><a href=\"legend.png\">Legend</a>\n"
+               << "   <a href=\"https://www.ferretporn.se/subversion/rfcgraph/\">Source code</a></p>\n";
 
    for(int i = 0; i <= max_rfc_num; ++i)
    {
