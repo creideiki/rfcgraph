@@ -24,6 +24,9 @@
 #include <functional>
 #include <iomanip>
 #include <fstream>
+#include <algorithm>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -150,7 +153,7 @@ int main(int argc, char *argv[])
 {
    if(argc != 2)
    {
-      cout << "Usage: " << argv[0] << " <max_rfc_num>" << endl;
+      cerr << "Usage: " << argv[0] << " <max_rfc_num>" << endl;
       exit(2);
    }
 
@@ -193,13 +196,13 @@ int main(int argc, char *argv[])
 
          if(!rfcs[parent])
          {
-            cout << "Edge from " << from << " to " << to << " has a non-existant parent." << endl;
+            cerr << "Edge from " << from << " to " << to << " has a non-existant parent." << endl;
             exit(1);
          }
 
          if(!rfcs[child])
          {
-            cout << "Edge from " << from << " to " << to << " has a non-existant child." << endl;
+            cerr << "Edge from " << from << " to " << to << " has a non-existant child." << endl;
             exit(1);
          }
 
@@ -213,12 +216,17 @@ int main(int argc, char *argv[])
       {
          if(!cin)
             break;
-         cout << "Unknown record type \"" << type << "\"" << endl;
+         cerr << "Unknown record type \"" << type << "\"" << endl;
          exit(1);
       }
    }
 
    index_html = new ofstream("index.html");
+   if(!index_html || !*index_html)
+   {
+      cerr << "Unable to write \"index.html\"." << endl;
+      exit(1);
+   }
    *index_html << "<html><head><title>RFC index</title>\n"
                << "<style type=\"text/css\">\n"
                << "   table\n"
@@ -233,6 +241,16 @@ int main(int argc, char *argv[])
                << "   }\n"
                << "</style>\n"
                << "</head><body>\n"
+               << "<p>Last updated: ";
+   time_t t = time(NULL);
+   char time_string[15];
+   if(strftime(time_string, 15, "%F", localtime(&t)) == 0)
+   {
+      cerr << "Unable to write update time." << endl;
+      exit(1);
+   }
+   *index_html << time_string
+               << "</p>\n"
                << "<p><a href=\"legend.png\">Legend</a>\n"
                << "   <a href=\"https://www.ferretporn.se/subversion/rfcgraph/\">Source code</a></p>\n";
 
