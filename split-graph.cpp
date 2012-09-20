@@ -137,9 +137,8 @@ void visit(int number)
    rfc->live = false;
 
    *index_html << "<tr><td>"
-               << "<a href=\"http://www.ietf.org/rfc/rfc"
-               << setfill('0') << setw(4) << rfc->number
-               << ".txt\">"
+               << "<a href=\"https://tools.ietf.org/html/rfc"
+               << rfc->number << "\">"
                << setfill('0') << setw(4) << rfc->number
                << "</a></td><td>" << rfc->title() << "</td></tr>\n";
 
