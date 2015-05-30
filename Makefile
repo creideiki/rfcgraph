@@ -14,7 +14,7 @@ dots: rfc-index.txt split-graph
 	touch dots
 
 pngs: dots
-	for i in *.dot; do dot -Tpng "$$i" -o `basename "$$i" .dot`.png; done
+	for i in *.dot; do dot -Tpng:gd:gd "$$i" -o `basename "$$i" .dot`.png; done
 
 legend.png:
 	dot -Tpng legend -o legend.png
