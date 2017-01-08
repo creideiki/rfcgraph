@@ -1,0 +1,18 @@
+RFCGraph
+
+Draws graphs of how all the IETF RFC:s relate to each other.
+
+Requires Graphviz, AWK, a C++ compiler, Make, wget, and a connection
+to <http://www.ietf.org/>.
+
+If you don't want to run it yourself, there's an infrequently updated
+public version at <https://www.lysator.liu.se/~creideiki/rfcgraph/>.
+
+Just running "make" should be enough, if you have all prerequisites.
+Then wait for a long time while Graphviz does its thing, and you'll
+end up with a whole lot of PNG files and an index.html file. Move
+these to where your web server can read them, and look at index.html
+with a web browser.
+
+For an example of why you need this program, take a look at 0317.png.
+This will also test your web browser's memory management subsystem.
