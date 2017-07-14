@@ -1,4 +1,8 @@
-all: pngs rmdots legend.png
+ifeq (,$(wildcard dots))
+.DEFAULT_GOAL := dots
+else
+.DEFAULT_GOAL := pngs
+endif
 
 split-graph: split-graph.cpp Makefile
 	g++ -O2 -o split-graph split-graph.cpp
@@ -7,20 +11,18 @@ rfc-index.txt:
 	wget http://www.ietf.org/download/rfc-index.txt
 	-rm -f dots
 
-.PHONY: all pngs clean rmdots
-
 dots: rfc-index.txt split-graph
 	./index2dot.awk < rfc-index.txt | sort -r | ./split-graph `tail rfc-index.txt | grep -E '^[[:digit:]]+' | tail -n 1 | cut -d' ' -f 1`
 	touch dots
+	echo -e "\n\n\nGraph built successfully.\nNow run \"make\" again, with maximum parallelism.\n(On Linux, try \"make -j \`getconf _NPROCESSORS_ONLN\`\")"
 
-pngs: dots
-	for i in *.dot; do dot -Tpng:gd:gd "$$i" -o `basename "$$i" .dot`.png; done
+pngs: $(patsubst %.dot,%.png,$(wildcard *.dot))
+	touch pngs
 
-legend.png:
-	dot -Tpng legend -o legend.png
+%.png: %.dot
+	dot -Tpng:gd:gd $< -o $@
+
+.PHONY: clean
 
 clean:
-	-rm -f rfc-index.txt *.dot *.png index.html dots split-graph
-
-rmdots:
-	-rm -f *.dot
+	-rm -f rfc-index.txt *.dot *.png index.html dots pngs split-graph
