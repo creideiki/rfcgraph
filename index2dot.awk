@@ -92,17 +92,9 @@ function end_of_rfc(description,   number, color, label)
       color = node_color["unknown"];
    }
 
-   last_dot = length(description) + 1
-   next_dot = 0;
-   dot_found_at = index(description, ".");
-   while(dot_found_at)
-   {
-      last_dot = next_dot;
-      dot_found_at = index(substr(description, last_dot + 1), ".")
-      next_dot = dot_found_at + last_dot + 1;
-   }
-
-   label = number "\\n" substr(description, 6, last_dot - 6);
+   label = number "\\n" substr(description, 6);
+   gsub(/ \((Format:|Obsoletes|Obsoleted by|Updates|Updated by|Also|Status:|DOI:) [^)]*\)/, "", label);
+   gsub(/ $/, "", label);
    gsub(/\"/, "\\\"", label);
 
    printf("node %s [color=%s,label=\"%s\"]\n", number, color, label);
