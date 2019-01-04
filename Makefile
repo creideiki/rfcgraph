@@ -8,7 +8,7 @@ split-graph: split-graph.cpp Makefile
 	g++ -O2 -o split-graph split-graph.cpp
 
 rfc-index.txt:
-	wget http://www.ietf.org/download/rfc-index.txt
+	wget https://www.rfc-editor.org/in-notes/rfc-index.txt
 	-rm -f dots
 
 dots: rfc-index.txt split-graph
